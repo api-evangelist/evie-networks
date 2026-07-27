@@ -1,0 +1,353 @@
+aid: evie-networks
+name: Evie Networks
+review:
+  question: Does Evie Networks expose a documented public API, and does any energy
+    data mandate reach it?
+  answer: false
+  date: '2026-07-27'
+  reviewer: API Evangelist
+  homeMarket: Australia
+  tier: ev-charging
+  primaryDomain: evienetworks.com
+  effectiveDomain: evie.com.au
+  domainNote: |
+    evienetworks.com resolves and 301/302 redirects to https://evie.com.au/
+    (curl -L, final url_effective https://evie.com.au/, HTTP 200, 2026-07-27).
+    All substantive probing was therefore done against evie.com.au.
+  wafNote: |
+    evie.com.au sits behind Wordfence on WP Engine. Requests sent with a
+    browser-like User-Agent ("Mozilla/5.0") are answered 403; the same URLs
+    return 200 to default curl. Every status recorded below was captured with
+    default curl unless stated otherwise.
+
+mandate:
+  regime: none
+  status: not-applicable
+  regimeConsidered: cdr-energy
+  homeMarketRegime: |
+    Australia's Consumer Data Right was extended to energy and is live. Under the
+    energy designation the obligation falls on electricity RETAILERS as primary
+    data holders and on AEMO as a secondary data holder, under the ACCC as
+    regulator and the Data Standards Body's Consumer Data Standards (energy).
+    That is the same statutory machinery that produced the byte-for-byte
+    identical banking APIs.
+  whyNotApplicable: |
+    Evie Networks is a charge point operator and e-mobility service provider, not
+    a licensed electricity retailer and not AEMO. The CDR energy designation does
+    not reach the EV charging layer. A mandate proven in banking and transplanted
+    into energy stops at the retailer boundary; downstream energy-consuming
+    infrastructure businesses like public charging networks are outside it
+    entirely. This is a control case for the study: the regime is live and
+    working in the same country, and it still produces zero API obligation here.
+  verification:
+    - method: CDR Register public API query
+      url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary
+      headers: 'x-v: 1'
+      httpStatus: 200
+      fetched: '2026-07-27'
+      result: |
+        Returned 84 designated energy data-holder brands (Arcline by RACV,
+        Origin Energy, AGL, EnergyAustralia, ENGIE, Alinta Energy, Powershop,
+        Red Energy, Amber, Energy Locals, Ergon Energy Retail, Ampol Energy,
+        etc.), each with a publicBaseUri pointing at a conformant CDR energy
+        surface (e.g. https://public.cdr.energy.arcline.com.au). Case-insensitive
+        search for "evie" across brandName returned ZERO matches. Evie Networks
+        is not a designated CDR energy data holder.
+    - method: CDR Register path variants probed
+      urls:
+        - url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands
+          httpStatus: 404
+          note: Not a valid unauthenticated Register endpoint (mTLS path).
+        - url: https://api.cdr.gov.au/cdr-register/v1/all/data-holders/brands/summary
+          httpStatus: 200
+          note: Cross-industry summary, also contains no Evie brand.
+  claimsVsImplementation: |
+    Evie makes NO public compliance claim about CDR, Green Button, or any other
+    data-sharing regime. There is nothing to downgrade from "claimed" to
+    "unverified" — the record is simply empty. Recording it as `none` /
+    `not-applicable` rather than `designated-not-live` matters: Evie is not
+    late on an obligation, it was never covered by one.
+
+dataStandard:
+  standard: no standard reference found
+  probedFor:
+    - Green Button / ESPI
+    - CDR Consumer Data Standards (energy)
+    - OCPP (Open Charge Point Protocol)
+    - OCPI (Open Charge Point Interface)
+    - ISO 15118 / Plug and Charge
+    - OpenADR
+    - IEEE 2030.5
+    - IEC CIM 61968/61970
+  findings: |
+    No page on evie.com.au names OCPP, OCPI, ISO 15118, Green Button, OpenADR,
+    IEEE 2030.5 or CIM. The about, partners, fleet-solutions and autocharge
+    pages were read in full. The closest technical disclosure is the Autocharge
+    page, which describes driver identification by "the unique MAC address of
+    your vehicle", de-identified with "a one-way hash ... so your car's full MAC
+    address is not sent to or stored by Evie". MAC-address Autocharge is the
+    OCPP-era convention rather than ISO 15118 Plug and Charge, but Evie names
+    neither standard, so no standard is recorded as implemented.
+  roaming: |
+    No OCPI roaming surface found. https://evie.com.au/ocpi, /ocpi/versions and
+    api.goevie.com.au/ocpi, /ocpi/versions, /ocpi/cpo/versions all returned 404.
+    No published roaming agreement was found; industry commentary through 2025
+    positions Evie as one of the Australian networks that had NOT roamed onto
+    the Chargefox platform.
+
+dataSplit:
+  consumerDataApi: false
+  consumerDataNotes: |
+    A driver's charging-session, billing and subscription data exists only inside
+    the Evie Charging mobile app and the customer's own account. There is no
+    documented API, no consent flow for third parties, no accreditation pathway,
+    and no data-portability mechanism of any kind. A third party cannot obtain an
+    individual customer's usage data through any documented interface.
+  marketDataOpen: false
+  marketDataNotes: |
+    Evie publishes no open network, utilisation, site-availability, pricing or
+    emissions data feed. Charger locations are rendered on
+    https://evie.com.au/find-a-charger/ by the WP Store Locator WordPress plugin
+    (Google Maps JS + WordPress AJAX), not by any Evie data API. Evie charger
+    data reaches developers only indirectly, via third-party aggregators
+    (PlugShare, Open Charge Map and state EV-charger datasets) that Evie does not
+    operate and that were not treated as an Evie API surface here.
+  theSplit: |
+    Unlike a grid operator or market body, Evie is closed on BOTH axes. There is
+    no open market-data side to offset the closed consumer side. That is the
+    finding: at the EV charging layer of the Australian energy value chain,
+    neither the statutory consumer-data mandate nor the open-market-data norm
+    applies, and the company publishes nothing.
+
+access:
+  gate: none-published
+  gated: true
+  whatADeveloperMustDo: |
+    There is nothing a developer can do. No developer portal, no signup, no
+    application form, no partner API programme, no data licence, no sandbox and
+    no published contact route for API access exist. Commercial routes on the
+    site (become a site host, fleet charge cards, council solutions, dealership
+    programmes) are sales enquiry forms for charging services, not for data or
+    API access. The only self-service assets are the consumer mobile apps.
+  authModel: |
+    Not published. No API-key programme, no OAuth2 or OpenID Connect discovery
+    document, no mTLS onboarding, no CDR accreditation pathway.
+    https://evie.com.au/.well-known/openid-configuration -> 404 and
+    https://api.goevie.com.au/.well-known/openid-configuration -> 404
+    (both fetched anonymously, 2026-07-27). The mobile app authenticates end
+    users to their own account; that scheme is undocumented.
+
+probes:
+  fetched: '2026-07-27'
+  domains:
+    - url: https://evienetworks.com
+      httpStatus: 200
+      note: Redirects to https://evie.com.au/
+    - url: https://www.evienetworks.com
+      httpStatus: 200
+    - url: https://evie.com.au
+      httpStatus: 200
+    - url: https://www.evie.com.au
+      httpStatus: 200
+  developerSubdomains:
+    - url: https://developer.evie.com.au
+      httpStatus: 000
+      note: DNS does not resolve.
+    - url: https://developers.evie.com.au
+      httpStatus: 000
+    - url: https://api.evie.com.au
+      httpStatus: 000
+    - url: https://docs.evie.com.au
+      httpStatus: 000
+    - url: https://data.evie.com.au
+      httpStatus: 000
+    - url: https://developer.evienetworks.com
+      httpStatus: 000
+    - url: https://developers.evienetworks.com
+      httpStatus: 000
+    - url: https://api.evienetworks.com
+      httpStatus: 000
+    - url: https://docs.evienetworks.com
+      httpStatus: 000
+    - url: https://data.evienetworks.com
+      httpStatus: 000
+    - url: https://developer.goevie.com.au
+      httpStatus: 000
+    - url: https://app.goevie.com.au
+      httpStatus: 000
+  paths:
+    - url: https://evie.com.au/developers
+      httpStatus: 404
+    - url: https://evie.com.au/developer
+      httpStatus: 404
+    - url: https://evie.com.au/api
+      httpStatus: 404
+    - url: https://evie.com.au/docs
+      httpStatus: 404
+    - url: https://evie.com.au/data
+      httpStatus: 404
+    - url: https://evie.com.au/openapi.json
+      httpStatus: 404
+    - url: https://evie.com.au/swagger.json
+      httpStatus: 404
+    - url: https://evie.com.au/api-docs
+      httpStatus: 404
+    - url: https://evie.com.au/.well-known/openid-configuration
+      httpStatus: 404
+    - url: https://evie.com.au/.well-known/security.txt
+      httpStatus: 404
+    - url: https://evie.com.au/ocpi
+      httpStatus: 404
+    - url: https://evie.com.au/ocpi/versions
+      httpStatus: 404
+    - url: https://evie.com.au/partners
+      httpStatus: 404
+    - url: https://evie.com.au/robots.txt
+      httpStatus: 200
+      note: Yoast/WooCommerce block; sitemap at /sitemap_index.xml.
+    - url: https://evie.com.au/sitemap.xml
+      httpStatus: 200
+      note: |
+        Full page-sitemap enumerated (58 pages). No developer, API, docs, data,
+        roaming or open-data page exists anywhere in the sitemap.
+  liveApiHostFound:
+    host: https://api.goevie.com.au
+    httpStatus: 404
+    fetched: '2026-07-27'
+    responseBody: '{"message":"The current request is not defined by this API.","code":404}'
+    responseHeaders: 'server: Google Frontend; x-envoy-decorator-operation: ingress
+      UnknownOperationName; via: 1.1 google'
+    interpretation: |
+      A REAL production API gateway exists — the response is the Google Cloud
+      Endpoints / ESPv2 "request not defined by this API" body, meaning a
+      declared API surface is running behind it. It backs the Evie Charging
+      mobile app. It is entirely undocumented and unadvertised: nothing on
+      evie.com.au references it. It is deliberately NOT listed in apis.yml
+      because no public documentation, contract, terms or onboarding exist for
+      it — listing it would present a private app backend as a public API.
+    pathsProbedOnHost:
+      - path: /openapi.json
+        httpStatus: 404
+      - path: /swagger.json
+        httpStatus: 404
+      - path: /v1
+        httpStatus: 404
+      - path: /docs
+        httpStatus: 404
+      - path: /api-docs
+        httpStatus: 404
+      - path: /.well-known/openid-configuration
+        httpStatus: 404
+      - path: /ocpi
+        httpStatus: 404
+      - path: /ocpi/versions
+        httpStatus: 404
+      - path: /ocpi/cpo/versions
+        httpStatus: 404
+      - path: /healthz
+        httpStatus: 404
+      - path: /health
+        httpStatus: 404
+  incidentalJsonSurface:
+    url: https://evie.com.au/wp-json/
+    httpStatus: 200
+    fetched: '2026-07-27'
+    what: |
+      The marketing site is WordPress (WP Engine) and its core REST API is open
+      anonymously: 813 routes across 31 namespaces including wp/v2, wc/v3,
+      wc/store, wpsl/v1, elasticpress/v1, yoast/v1 and jetpack/v4. A GET of
+      https://evie.com.au/wp-json/wp/v2/wpsl_stores?per_page=2 returned HTTP 200
+      with JSON records for charging sites (first record title "594 Anzac Parade
+      Parking - Kingsford"), because the charger map is built on the WP Store
+      Locator plugin.
+    decision: |
+      NOT listed as an Evie API. This is WordPress and WooCommerce CMS
+      plumbing exposed by default on a marketing site, documented by WordPress
+      rather than by Evie, with no product intent, no terms of use and no
+      stability commitment. Recording it as an "Evie charging locations API"
+      would be a fabrication of intent. It is documented here only because it is
+      the one anonymously callable JSON surface the company operates, and
+      because it is the accidental route by which Evie site data is currently
+      machine-readable at all.
+  codeAndArtifacts:
+    - url: https://github.com/goevie
+      httpStatus: 200
+      note: |
+        Evie's GitHub organisation ("Evie", created 2019-06-28) has 1 public
+        repository, "coding_challenge" (a recruiting exercise). No SDKs, no
+        OpenAPI, no client libraries, no spec artifacts.
+    - url: https://api.github.com/orgs/evienetworks
+      httpStatus: 404
+    - url: https://api.github.com/orgs/evie-networks
+      httpStatus: 404
+    - url: https://status.evie.com.au
+      httpStatus: 000
+      note: No status page.
+
+apiFamily:
+  documentedPublicApis: 0
+  note: |
+    Evie's product surface maps to charging sessions, tariffs/subscription
+    pricing, site/charger availability, fleet account billing and reconciliation,
+    and Autocharge vehicle identification. Every one of those is delivered
+    through the consumer app, the fleet charge-card programme or an account
+    manager. None of them is exposed as a documented API, so apis[] in apis.yml
+    is deliberately empty.
+
+sources:
+  - url: https://evie.com.au/about-evie/
+    type: About
+    httpStatus: 200
+    note: |
+      Founded 2017; backed by Trevor St Baker's St Baker Energy Innovation Fund;
+      offices in Sydney (Eveleigh), Brisbane (410 Queen St) and Melbourne (333
+      Collins St); "hundreds of charging stations" across "14 cities and regions
+      in every state and territory of Australia". No mention of APIs, OCPP, OCPI
+      or roaming.
+  - url: https://evie.com.au/autocharge/
+    type: Documentation
+    httpStatus: 200
+    note: |
+      Autocharge identifies the vehicle by MAC address, hashed one-way. No
+      standard named.
+  - url: https://evie.com.au/charging-solutions/fleet/
+    type: Documentation
+    httpStatus: 200
+    note: |
+      Fleet offer promises "actionable insights with reporting" and "the data you
+      need to understand charging patterns, preferred locations, and costs" but
+      names no portal, no export format and no API.
+  - url: https://evie.com.au/our-partners/
+    type: Documentation
+    httpStatus: 200
+    note: |
+      Partners listed are commercial/site hosts (Coles, Active Super, Haben,
+      Consolidated Properties Group, Geely, ActewAGL). Mentions consolidating
+      "charge session data across all charging categories" and "site-specific
+      insights and usage data" for councils — delivered as a service, not an API.
+  - url: https://evie.com.au/find-a-charger/
+    type: Documentation
+    httpStatus: 200
+    note: |
+      Charger map is WP Store Locator over the Google Maps JavaScript API. No
+      Evie-operated location data API is referenced.
+  - url: https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary
+    type: APIReference
+    httpStatus: 200
+    note: |
+      Authoritative negative evidence: 84 designated CDR energy data-holder
+      brands, Evie not among them.
+
+conclusion: |
+  Evie Networks is a built-stub: real, verifiable company identity with zero
+  documented public API surface. The exercise's central question resolves
+  cleanly here. Australia proved a statutory data mandate is replicable — the
+  CDR Register answers anonymously with 84 energy data holders each publishing a
+  conformant base URI, which is exactly the banking pattern transplanted. But
+  the mandate's edge is sharp: it binds retailers and AEMO, and it stops there.
+  Evie, an infrastructure business that sells electricity to drivers at 300+
+  sites, sits outside it and publishes nothing — no consumer data API, no open
+  market data, no standard, no portal, no auth model. It runs a real API
+  (api.goevie.com.au, live Google Cloud Endpoints gateway) purely as private
+  plumbing for its own app. A mandate is not an implementation, and here a
+  working mandate a single layer up produces no implementation at all.
