@@ -1,0 +1,85 @@
+generated: '2026-07-27'
+method: searched
+source: |
+  Evie Networks public web surface (evie.com.au, 58-page sitemap read in full),
+  api.goevie.com.au probes, and the CDR Register energy data-holder brand
+  summary. No OpenAPI or other machine-readable contract exists to derive from.
+summary: |
+  Evie Networks names no EV-charging interoperability standard, no energy data
+  standard and no API convention anywhere on its public surface. Every entry
+  below is a recorded negative with the evidence that produced it. Nothing here
+  is inferred from a spec, because there is no spec.
+standards:
+- id: ocpp
+  name: Open Charge Point Protocol
+  conforms: false
+  evidence: |
+    Not named on any page of evie.com.au (full sitemap read 2026-07-27). Evie
+    operates its own chargers so it almost certainly speaks OCPP to them, but it
+    publishes no claim, version or certification, so nothing is asserted here.
+- id: ocpi
+  name: Open Charge Point Interface (roaming)
+  conforms: false
+  evidence: |
+    https://evie.com.au/ocpi, /ocpi/versions and api.goevie.com.au/ocpi,
+    /ocpi/versions, /ocpi/cpo/versions all returned 404 (2026-07-27). No roaming
+    surface, no published roaming agreement.
+- id: iso-15118
+  name: ISO 15118 Plug and Charge
+  conforms: false
+  evidence: |
+    The Autocharge page (https://evie.com.au/autocharge/, 200) identifies
+    vehicles by a one-way-hashed MAC address, which is the OCPP-era Autocharge
+    convention rather than ISO 15118 Plug and Charge. Neither standard is named.
+- id: cdr-energy
+  name: Consumer Data Right (energy) — Consumer Data Standards
+  conforms: false
+  evidence: |
+    Authoritative negative: the CDR Register energy data-holder brand summary
+    (https://api.cdr.gov.au/cdr-register/v1/energy/data-holders/brands/summary,
+    HTTP 200, x-v:1) returned 84 designated brands; a case-insensitive search
+    for "evie" matched none. The CDR energy designation binds electricity
+    retailers and AEMO, not charge point operators.
+- id: green-button-espi
+  name: Green Button / ESPI
+  conforms: false
+  evidence: Not referenced anywhere on evie.com.au.
+- id: openadr
+  name: OpenADR
+  conforms: false
+  evidence: Not referenced anywhere on evie.com.au.
+- id: ieee-2030-5
+  name: IEEE 2030.5
+  conforms: false
+  evidence: Not referenced anywhere on evie.com.au.
+- id: iec-cim
+  name: IEC CIM 61968 / 61970
+  conforms: false
+  evidence: Not referenced anywhere on evie.com.au.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: |
+    No authorization-server metadata published. /.well-known/oauth-authorization-server
+    returned 404 on both evie.com.au and api.goevie.com.au (2026-07-27).
+- id: oidc
+  name: OpenID Connect
+  conforms: false
+  evidence: |
+    /.well-known/openid-configuration returned 404 on both hosts (2026-07-27).
+- id: rfc9457-problem-details
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: |
+    The only observable error envelope is the Google Cloud Endpoints / ESPv2
+    default, {"message":"...","code":404} as application/json — not
+    application/problem+json.
+- id: rfc9116-security-txt
+  name: RFC 9116 security.txt
+  conforms: false
+  evidence: /.well-known/security.txt returned 404 on both hosts (2026-07-27).
+compliance_published: false
+compliance_note: |
+  Evie publishes no certification or compliance programme (no SOC 2, ISO 27001,
+  PCI DSS, HIPAA or trust centre page was found by probe-security-programs.py,
+  2026-07-27), so no `Compliance` pointer is wired.

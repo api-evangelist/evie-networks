@@ -1,0 +1,70 @@
+# Evie Networks
+
+> Australian electric-vehicle charging infrastructure company (founded 2017, backed by the St Baker Energy Innovation Fund) that owns and operates one of the country's largest DC fast and ultrafast public charging networks across 300+ locations in every state and territory. Evie is a charge point operator (CPO) and e-mobility service provider: it buys energy and resells it as charging sessions to drivers and fleets, and builds and operates charging assets for site hosts, councils, dealerships and commercial property owners.
+
+## API posture
+
+Evie Networks publishes **no public API**. As of 2026-07-27 there is no developer
+portal, no API documentation, no OpenAPI/AsyncAPI/GraphQL contract, no SDKs, no
+sandbox, no `/.well-known/` discovery document and no published authentication or
+onboarding path. A real production API gateway exists at `https://api.goevie.com.au`
+(Google Cloud Endpoints / ESPv2) serving the Evie Charging mobile app, but it is
+undocumented, unadvertised and answers anonymous callers with
+`{"message":"The current request is not defined by this API.","code":404}`.
+Charger location data reaches developers only indirectly, through third-party
+aggregators (PlugShare, Open Charge Map, state EV-charger datasets) that Evie
+does not operate.
+
+Evie is **not** a designated data holder under Australia's Consumer Data Right
+energy regime — the CDR Register's public energy data-holder brand summary lists
+84 brands and Evie is not among them — so the statutory data mandate that
+produced identical APIs across Australian banks and energy retailers does not
+reach the EV charging layer.
+
+## Company
+
+- [Website](https://evie.com.au/)
+- [About Evie](https://evie.com.au/about-evie/): company background, founding, offices
+- [Our Mission](https://evie.com.au/our-mission/)
+- [Our Team](https://evie.com.au/about-evie/our-team/)
+- [Careers](https://evie.com.au/about-evie/careers/)
+- [Contact Us](https://evie.com.au/contact-us/)
+- [LinkedIn](https://au.linkedin.com/company/evie-networks)
+- [GitHub organisation](https://github.com/goevie): one public repository, a recruiting coding challenge — no SDKs or specs
+
+## Products and services
+
+- [Find a Charger](https://evie.com.au/find-a-charger/): charger map, rendered by the WP Store Locator WordPress plugin over Google Maps — not an Evie data API
+- [How to Charge](https://evie.com.au/how-to-charge/): driver getting-started guide, includes how per-site pricing is surfaced
+- [Autocharge](https://evie.com.au/autocharge/): driver identification by one-way-hashed vehicle MAC address (OCPP-era Autocharge, not ISO 15118 Plug and Charge)
+- [Download the app](https://evie.com.au/app-download/): the Evie Charging consumer mobile app
+- [Charging Solutions](https://evie.com.au/charging-solutions/): commercial, fleet and council offerings
+- [Fleet charging](https://evie.com.au/charging-solutions/fleet/): charge cards, post-paid accounts, on-site charging; reporting delivered as a service, not an API
+- [Become a Site Host](https://evie.com.au/become-a-site-host/)
+- [Our Partners](https://evie.com.au/our-partners/)
+
+## Support and policies
+
+- [Help Centre](https://evie.com.au/help-center/)
+- [Frequently Asked Questions](https://evie.com.au/frequently-asked-questions/)
+- [Blog / News](https://evie.com.au/blog/)
+- [Terms of Service](https://evie.com.au/terms-of-service/)
+- [Privacy Policy](https://evie.com.au/privacy-policy/)
+
+## API Evangelist artifacts
+
+- [apis.yml](https://raw.githubusercontent.com/api-evangelist/evie-networks/refs/heads/main/apis.yml): the APIs.json index for this provider
+- [review.yml](https://raw.githubusercontent.com/api-evangelist/evie-networks/refs/heads/main/review.yml): full probe record behind the closed-API finding
+- [Conformance](https://raw.githubusercontent.com/api-evangelist/evie-networks/refs/heads/main/conformance/evie-networks-conformance.yml): OCPP / OCPI / ISO 15118 / CDR standards checked, all recorded negative with evidence
+- [Domain security](https://raw.githubusercontent.com/api-evangelist/evie-networks/refs/heads/main/security/evie-networks-domain-security.yml): probed TLS, HSTS, DNSSEC, CAA, SPF and DMARC posture
+- [Well-known](https://raw.githubusercontent.com/api-evangelist/evie-networks/refs/heads/main/well-known/evie-networks-well-known.yml): every `/.well-known/` path probed, all 404
+
+## Notes for agents
+
+- Do not treat `https://evie.com.au/wp-json/` as an Evie API. The marketing site is WordPress and its core REST API is open anonymously (813 routes across 31 namespaces, including `wpsl/v1` store-locator records for charging sites). It is CMS plumbing documented by WordPress, with no product intent, terms of use or stability commitment.
+- Do not treat `https://api.goevie.com.au` as a public API. It is private mobile-app plumbing with no documentation, contract, terms or onboarding.
+- There is no route by which a third party can obtain an individual Evie customer's charging-session data, and no open network, utilisation, availability, pricing or emissions feed.
+
+generated: '2026-07-27'
+method: generated
+source: apis.yml + review.yml + repo artifacts (no provider-published llms.txt; https://evie.com.au/llms.txt returned 404 on 2026-07-27)

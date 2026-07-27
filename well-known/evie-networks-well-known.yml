@@ -1,0 +1,49 @@
+generated: '2026-07-27'
+method: searched
+source: live anonymous probes of the Evie Networks web + API hosts
+summary: |
+  No /.well-known/ discovery document of any kind is published by Evie Networks.
+  Every RFC 9116 (security.txt), RFC 8414 (oauth-authorization-server), OIDC
+  discovery, RFC 9727 (api-catalog) and ai-plugin.json path returned 404 on both
+  the marketing host (evie.com.au, WordPress on WP Engine) and the live but
+  undocumented production API gateway (api.goevie.com.au, Google Cloud Endpoints
+  / ESPv2). No document was saved because none exists. This is a recorded
+  negative, not a gap in the probe.
+documents: []
+probes:
+- host: https://evie.com.au
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: https://api.goevie.com.au
+  note: |
+    Live Google Cloud Endpoints gateway backing the Evie Charging mobile app.
+    Every path returns the ESPv2 body
+    {"message":"The current request is not defined by this API.","code":404},
+    which confirms a declared API surface is running but that none of these
+    discovery paths are part of it.
+  results:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+pointer_note: |
+  No `WellKnown` / `APICatalog` pointer is wired into apis.yml. Zero documents
+  were found, so wiring the canonical pointer would assert a discovery surface
+  that does not exist.

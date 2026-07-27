@@ -39,6 +39,8 @@ modified: '2026-07-27'
 specificationVersion: '0.19'
 apis: []
 common:
+- type: DomainSecurity
+  url: security/evie-networks-domain-security.yml
 - type: Website
   url: https://evie.com.au/
 - type: About
@@ -49,6 +51,18 @@ common:
   url: https://evie.com.au/feed/
 - type: Support
   url: https://evie.com.au/help-center/
+- type: FAQ
+  url: https://evie.com.au/frequently-asked-questions/
+- type: ContactUs
+  url: https://evie.com.au/contact-us/
+- type: Careers
+  url: https://evie.com.au/about-evie/careers/
+- type: Team
+  url: https://evie.com.au/about-evie/our-team/
+- type: LLMsTxt
+  url: llms/evie-networks-llms.txt
+- type: Conformance
+  url: conformance/evie-networks-conformance.yml
 - type: PrivacyPolicy
   url: https://evie.com.au/privacy-policy/
 - type: TermsOfService
