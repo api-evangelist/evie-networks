@@ -1,0 +1,21 @@
+{
+  "repo": "evie-networks",
+  "feeds": [
+    {
+      "source": "https://evie.com.au/about-evie/",
+      "feed_url": "https://evie.com.au/about-evie/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    },
+    {
+      "source": "https://evie.com.au/blog/",
+      "feed_url": "https://evie.com.au/blog/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "discovered"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-08-01T15:49:00Z"
+}
