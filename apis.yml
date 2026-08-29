@@ -23,6 +23,17 @@ description: >-
   Endpoints 404 to anonymous callers. Neither consumer charging-session data nor
   network/market data is published through any documented public interface; charger
   location data reaches developers only through third-party aggregators.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://evie.com.au/wp-content/uploads/2023/07/evie-favicon-300x300.png
 tags:
 - Energy
