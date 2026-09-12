@@ -2,20 +2,11 @@
   "repo": "evie-networks",
   "feeds": [
     {
-      "source": "https://evie.com.au/about-evie/feed/",
-      "feed_url": "https://evie.com.au/about-evie/feed/",
-      "title": "",
-      "saved": 0,
-      "method": "feed"
-    },
-    {
-      "source": "https://evie.com.au/blog/feed/",
+      "source": "https://evie.com.au/blog/",
       "feed_url": "https://evie.com.au/blog/feed/",
       "title": "",
       "saved": 0,
-      "method": "feed",
-      "nature": "undetermined",
-      "nature_basis": null
+      "method": "discovered"
     },
     {
       "source": "https://evie.com.au/about-evie/",
@@ -25,17 +16,22 @@
       "method": "discovered"
     },
     {
-      "source": "https://evie.com.au/blog/",
+      "source": "https://evie.com.au/blog/feed/",
       "feed_url": "https://evie.com.au/blog/feed/",
       "title": "",
       "saved": 0,
-      "method": "discovered",
-      "nature": "undetermined",
-      "nature_basis": null
+      "method": "feed"
+    },
+    {
+      "source": "https://evie.com.au/about-evie/feed/",
+      "feed_url": "https://evie.com.au/about-evie/feed/",
+      "title": "",
+      "saved": 0,
+      "method": "feed"
     }
   ],
   "post_count": 10,
-  "fetched": "2026-08-30T22:33:40Z",
+  "fetched": "2026-09-06T19:17:18Z",
   "feed_nature": "undetermined",
   "feed_nature_basis": null,
   "feed_nature_note": "Whether these posts are the vendor publishing or its support community, decided on the URL path grammar of the saved posts -- not the hostname, which carries both on Khoros, and not author diversity, which flags large vendor blogs as forums. 'undetermined' means undetermined."
